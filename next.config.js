@@ -18,6 +18,7 @@ module.exports = withPWA({
       "picsum.photos",
       "pickbazar-sail.test",
       "pickbazarlaravel.s3.ap-southeast-1.amazonaws.com",
+      "https://api.totil.net"
     ],
   },
   typescript: {
