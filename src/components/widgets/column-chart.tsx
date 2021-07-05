@@ -81,7 +81,7 @@ const BarChart = ({
   };
 
   return (
-    <div className="bg-white shadow-sm rounded w-full h-full">
+    <div className="bg-light shadow-sm rounded w-full h-full">
       <div className="p-8 flex items-center justify-between">
         <h3 className="text-sm text-heading">{widgetTitle}</h3>
 
@@ -102,7 +102,7 @@ const BarChart = ({
                 <ArrowDown />
               </span>
             )}
-            <span className="text-sm text-heading ml-1">
+            <span className="text-sm text-heading ms-1">
               <span
                 className={cn(
                   position === "down" ? "text-red-400" : "text-green-500"

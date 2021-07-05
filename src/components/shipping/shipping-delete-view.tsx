@@ -1,16 +1,18 @@
 import ConfirmationCard from "@components/common/confirmation-card";
-import { useUI } from "@contexts/ui.context";
+import {
+  useModalAction,
+  useModalState,
+} from "@components/ui/modal/modal.context";
 import { useDeleteShippingClassMutation } from "@data/shipping/use-shipping-delete.mutation";
 
 const ShippingDeleteView = () => {
-  const {
-    mutate: deleteShippingClass,
-    isLoading: loading,
-  } = useDeleteShippingClassMutation();
+  const { mutate: deleteShippingClass, isLoading: loading } =
+    useDeleteShippingClassMutation();
 
-  const { closeModal, modalData } = useUI();
+  const { data } = useModalState();
+  const { closeModal } = useModalAction();
   function handleDelete() {
-    deleteShippingClass(modalData);
+    deleteShippingClass(data);
     closeModal();
   }
   return (

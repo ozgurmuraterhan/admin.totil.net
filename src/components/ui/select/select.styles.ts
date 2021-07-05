@@ -24,7 +24,7 @@ export const selectStyles = {
     backgroundColor: "#ffffff",
     borderRadius: 5,
     border: "1px solid #D1D5DB",
-    borderColor: state.isFocused ? "var(--gossamer-500)" : "#D1D5DB",
+    borderColor: state.isFocused ? "rgb(var(--color-accent-500))" : "#D1D5DB",
     boxShadow:
       state.menuIsOpen &&
       "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
@@ -68,7 +68,7 @@ export const selectStyles = {
   }),
   multiValue: (provided: any, _: any) => ({
     ...provided,
-    backgroundColor: "var(--gossamer-400)",
+    backgroundColor: "rgb(var(--color-accent-400))",
     borderRadius: 9999,
     overflow: "hidden",
     boxShadow:
@@ -88,7 +88,7 @@ export const selectStyles = {
     cursor: "pointer",
 
     "&:hover": {
-      backgroundColor: "var(--gossamer-300)",
+      backgroundColor: "rgb(var(--color-accent-300))",
       color: "#F3F4F6",
     },
   }),

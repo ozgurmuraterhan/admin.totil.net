@@ -18,7 +18,7 @@ export const useCreateUserMutation = () => {
       User.register(API_ENDPOINTS.REGISTER, variables),
     {
       onSuccess: () => {
-        router.push(ROUTES.CUSTOMERS);
+        router.push(ROUTES.USERS);
       },
       // Always refetch after error or success:
       onSettled: () => {

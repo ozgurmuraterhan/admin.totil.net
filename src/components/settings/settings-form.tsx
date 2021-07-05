@@ -9,11 +9,11 @@ import { CURRENCY } from "./currency";
 import { siteSettings } from "@settings/site.settings";
 import ValidationError from "@components/ui/form-validation-error";
 import { useUpdateSettingsMutation } from "@data/settings/use-settings-update.mutation";
+import { useTranslation } from "next-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { settingsValidationSchema } from "./settings-validation-schema";
 import FileInput from "@components/ui/file-input";
 import SelectInput from "@components/ui/select-input";
-// import SwitchInput from "@components/ui/switch-input";
 import TextArea from "@components/ui/text-area";
 import { getFormattedImage } from "@utils/get-formatted-image";
 
@@ -57,10 +57,9 @@ export default function SettingsForm({
   taxClasses,
   shippingClasses,
 }: IProps) {
-  const {
-    mutate: updateSettingsMutation,
-    isLoading: loading,
-  } = useUpdateSettingsMutation();
+  const { t } = useTranslation();
+  const { mutate: updateSettingsMutation, isLoading: loading } =
+    useUpdateSettingsMutation();
   const {
     register,
     handleSubmit,
@@ -111,21 +110,21 @@ export default function SettingsForm({
 
   const logoInformation = (
     <span>
-      Upload your site logo from here. <br />
-      Dimension of the logo should be &nbsp;
+      {t("form:logo-help-text")} <br />
+      {t("form:logo-dimension-help-text")} &nbsp;
       <span className="font-bold">
-        {siteSettings.logo.width} x {siteSettings.logo.height}px
+        {siteSettings.logo.width}x{siteSettings.logo.height} {t("common:pixel")}
       </span>
     </span>
   );
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-wrap pb-8 border-b border-dashed border-gray-300 my-5 sm:my-8">
+      <div className="flex flex-wrap pb-8 border-b border-dashed border-border-base my-5 sm:my-8">
         <Description
-          title="Logo"
+          title={t("form:input-label-logo")}
           details={logoInformation}
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
@@ -135,29 +134,29 @@ export default function SettingsForm({
 
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description
-          title="Information"
-          details="Change your site information from here"
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+          title={t("form:form-title-information")}
+          details={t("form:site-info-help-text")}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
           <Input
-            label="Site Title"
+            label={t("form:input-label-site-title")}
             {...register("siteTitle")}
-            error={errors.siteTitle?.message}
+            error={t(errors.siteTitle?.message!)}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="Site Subtitle"
+            label={t("form:input-label-site-subtitle")}
             {...register("siteSubtitle")}
-            error={errors.siteSubtitle?.message}
+            error={t(errors.siteSubtitle?.message!)}
             variant="outline"
             className="mb-5"
           />
 
           <div className="mb-5">
-            <Label>Currency</Label>
+            <Label>{t("form:input-label-currency")}</Label>
             <SelectInput
               name="currency"
               control={control}
@@ -165,11 +164,11 @@ export default function SettingsForm({
               getOptionValue={(option: any) => option.code}
               options={CURRENCY}
             />
-            <ValidationError message={errors.currency?.message} />
+            <ValidationError message={t(errors.currency?.message)} />
           </div>
 
           <div className="mb-5">
-            <Label>Tax Class</Label>
+            <Label>{t("form:input-label-tax-class")}</Label>
             <SelectInput
               name="taxClass"
               control={control}
@@ -180,7 +179,7 @@ export default function SettingsForm({
           </div>
 
           <div>
-            <Label>Shipping Class</Label>
+            <Label>{t("form:input-label-shipping-class")}</Label>
             <SelectInput
               name="shippingClass"
               control={control}
@@ -194,60 +193,60 @@ export default function SettingsForm({
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description
           title="SEO"
-          details="Change your site SEO from here"
+          details={t("form:tax-form-seo-info-help-text")}
           className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
           <Input
-            label="Meta Title"
+            label={t("form:input-label-meta-title")}
             {...register("seo.metaTitle")}
             variant="outline"
             className="mb-5"
           />
           <TextArea
-            label="Meta Description"
+            label={t("form:input-label-meta-description")}
             {...register("seo.metaDescription")}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="Meta Tags"
+            label={t("form:input-label-meta-tags")}
             {...register("seo.metaTags")}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="Canonical URL"
+            label={t("form:input-label-canonical-url")}
             {...register("seo.canonicalUrl")}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="OG Title"
+            label={t("form:input-label-og-title")}
             {...register("seo.ogTitle")}
             variant="outline"
             className="mb-5"
           />
           <TextArea
-            label="OG Description"
+            label={t("form:input-label-og-description")}
             {...register("seo.ogDescription")}
             variant="outline"
             className="mb-5"
           />
           <div className="mb-5">
-            <Label>OG Image</Label>
+            <Label>{t("form:input-label-og-image")}</Label>
             <FileInput name="seo.ogImage" control={control} multiple={false} />
           </div>
           <Input
-            label="Twitter Handle"
+            label={t("form:input-label-twitter-handle")}
             {...register("seo.twitterHandle")}
             variant="outline"
             className="mb-5"
             placeholder="your twitter username (exp: @username)"
           />
           <Input
-            label="Twitter Card Type"
+            label={t("form:input-label-twitter-card-type")}
             {...register("seo.twitterCardType")}
             variant="outline"
             className="mb-5"
@@ -255,9 +254,10 @@ export default function SettingsForm({
           />
         </Card>
       </div>
-      <div className="mb-4 text-right">
+
+      <div className="mb-4 text-end">
         <Button loading={loading} disabled={loading}>
-          Save Settings
+          {t("form:button-label-save-settings")}
         </Button>
       </div>
     </form>

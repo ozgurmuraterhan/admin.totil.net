@@ -37,10 +37,10 @@ const DonutChart = ({ series, icon, labels, prefix, colors }: any) => {
   };
 
   return (
-    <div className="bg-white shadow-sm rounded w-full h-full">
+    <div className="bg-light shadow-sm rounded w-full h-full">
       <div className="p-8 flex items-start justify-between">
         <div className="w-full flex items-center justify-start">
-          <span className="w-14 h-14 mr-4 flex">{icon[0]}</span>
+          <span className="w-14 h-14 me-4 flex">{icon[0]}</span>
 
           <div className="flex flex-col">
             <span
@@ -66,7 +66,7 @@ const DonutChart = ({ series, icon, labels, prefix, colors }: any) => {
 
       <div className="p-8 flex items-start justify-between">
         <div className="w-full flex flex-row-reverse items-center justify-start ">
-          <span className="w-14 h-14 ml-4 flex">{icon[1]}</span>
+          <span className="w-14 h-14 ms-4 flex">{icon[1]}</span>
 
           <div className="flex flex-col items-end">
             <span

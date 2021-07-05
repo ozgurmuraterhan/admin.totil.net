@@ -4,6 +4,7 @@ import { useDropzone } from "react-dropzone";
 import { Attachment } from "@ts-types/generated";
 import { CloseIcon } from "@components/icons/close-icon";
 import Loader from "@components/ui/loader/loader";
+import { useTranslation } from "next-i18next";
 import { useUploadMutation } from "@data/upload/use-upload.mutation";
 
 const getPreviewImage = (value: any) => {
@@ -14,6 +15,7 @@ const getPreviewImage = (value: any) => {
   return images;
 };
 export default function Uploader({ onChange, value, multiple }: any) {
+  const { t } = useTranslation();
   const [files, setFiles] = useState<Attachment[]>(getPreviewImage(value));
   const { mutate: upload, isLoading: loading } = useUploadMutation();
   const { getRootProps, getInputProps } = useDropzone({
@@ -55,7 +57,7 @@ export default function Uploader({ onChange, value, multiple }: any) {
     if (file.id) {
       return (
         <div
-          className="inline-flex flex-col overflow-hidden border border-gray-200 rounded mt-2 mr-2 relative"
+          className="inline-flex flex-col overflow-hidden border border-border-200 rounded mt-2 me-2 relative"
           key={idx}
         >
           <div className="flex items-center justify-center min-w-0 w-16 h-16 overflow-hidden">
@@ -63,7 +65,7 @@ export default function Uploader({ onChange, value, multiple }: any) {
           </div>
           {multiple ? (
             <button
-              className="w-4 h-4 flex items-center justify-center rounded-full bg-red-600 text-xs text-white absolute top-1 right-1 shadow-xl outline-none"
+              className="w-4 h-4 flex items-center justify-center rounded-full bg-red-600 text-xs text-light absolute top-1 end-1 shadow-xl outline-none"
               onClick={() => handleDelete(file.thumbnail)}
             >
               <CloseIcon width={10} height={10} />
@@ -87,15 +89,17 @@ export default function Uploader({ onChange, value, multiple }: any) {
       <div
         {...getRootProps({
           className:
-            "border-dashed border-2 border-gray-300 h-36 rounded flex flex-col justify-center items-center cursor-pointer focus:border-gossamer-400 focus:outline-none",
+            "border-dashed border-2 border-border-base h-36 rounded flex flex-col justify-center items-center cursor-pointer focus:border-accent-400 focus:outline-none",
         })}
       >
         <input {...getInputProps()} />
-        <UploadIcon className="text-gray-300" />
+        <UploadIcon className="text-muted-light" />
         <p className="text-body text-sm mt-4 text-center">
-          <span className="text-primary font-semibold">Upload an image</span> or
-          drag and drop <br />
-          <span className="text-xs text-gray-500">PNG,JPG</span>
+          <span className="text-accent font-semibold">
+            {t("text-upload-highlight")}
+          </span>{" "}
+          {t("text-upload-message")} <br />
+          <span className="text-xs text-body">{t("text-img-format")}</span>
         </p>
       </div>
 
@@ -103,7 +107,7 @@ export default function Uploader({ onChange, value, multiple }: any) {
         <aside className="flex flex-wrap mt-2">
           {!!thumbs.length && thumbs}
           {loading && (
-            <div className="h-16 flex items-center mt-2 ml-2">
+            <div className="h-16 flex items-center mt-2 ms-2">
               <Loader simple={true} className="w-6 h-6" />
             </div>
           )}

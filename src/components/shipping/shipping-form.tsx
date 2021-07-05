@@ -11,6 +11,7 @@ import { useUpdateShippingClassMutation } from "@data/shipping/use-shipping-upda
 import { yupResolver } from "@hookform/resolvers/yup";
 import { shippingValidationSchema } from "./shipping-validation-schema";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 const defaultValues = {
   name: "",
@@ -22,8 +23,10 @@ const defaultValues = {
 type IProps = {
   initialValues?: Shipping | undefined | null;
 };
+
 export default function CreateOrUpdateShippingForm({ initialValues }: IProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -34,14 +37,10 @@ export default function CreateOrUpdateShippingForm({ initialValues }: IProps) {
     resolver: yupResolver(shippingValidationSchema),
     defaultValues: initialValues ?? defaultValues,
   });
-  const {
-    mutate: createShippingClass,
-    isLoading: creating,
-  } = useCreateShippingClassMutation();
-  const {
-    mutate: updateShippingClass,
-    isLoading: updating,
-  } = useUpdateShippingClassMutation();
+  const { mutate: createShippingClass, isLoading: creating } =
+    useCreateShippingClassMutation();
+  const { mutate: updateShippingClass, isLoading: updating } =
+    useUpdateShippingClassMutation();
   const onSubmit = async (values: ShippingInput) => {
     if (initialValues) {
       updateShippingClass({
@@ -69,40 +68,41 @@ export default function CreateOrUpdateShippingForm({ initialValues }: IProps) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description
-          title="Description"
+          title={t("form:item-description")}
           details={`${
-            initialValues ? "Update" : "Add"
-          } your type description and necessary
-          information from here`}
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+            initialValues
+              ? t("form:item-description-update")
+              : t("form:item-description-add")
+          } ${t("form:shipping-form-info-help-text")}`}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
         <Card className="w-full sm:w-8/12 md:w-2/3">
           <Input
-            label="Name"
+            label={t("form:input-label-name")}
             {...register("name", { required: "Name is required" })}
-            error={errors.name?.message}
+            error={t(errors.name?.message!)}
             variant="outline"
             className="mb-5"
           />
 
           <div className="mb-5">
-            <Label>Type</Label>
+            <Label>{t("form:input-label-type")}</Label>
             <Radio
-              label="Free"
+              label={t("form:input-label-free")}
               {...register("type")}
               id="FREE"
               value={ShippingType.Free}
               className="mb-2"
             />
             <Radio
-              label="Fixed"
+              label={t("form:input-label-fixed")}
               {...register("type")}
               id="FIXED"
               value={ShippingType.Fixed}
               className="mb-2"
             />
             <Radio
-              label="Percentage"
+              label={t("form:input-label-percentage")}
               {...register("type")}
               id="PERCENTAGE"
               value={ShippingType.Percentage}
@@ -110,10 +110,10 @@ export default function CreateOrUpdateShippingForm({ initialValues }: IProps) {
           </div>
           {type !== ShippingType.Free && (
             <Input
-              label="Amount"
+              label={t("form:input-label-amount")}
               {...register("amount")}
               type="number"
-              error={errors.amount?.message}
+              error={t(errors.amount?.message!)}
               variant="outline"
               className="mb-5"
             />
@@ -121,20 +121,23 @@ export default function CreateOrUpdateShippingForm({ initialValues }: IProps) {
         </Card>
       </div>
 
-      <div className="mb-4 text-right">
+      <div className="mb-4 text-end">
         {initialValues && (
           <Button
             variant="outline"
             onClick={router.back}
-            className="mr-4"
+            className="me-4"
             type="button"
           >
-            Back
+            {t("form:button-label-back")}
           </Button>
         )}
 
         <Button loading={creating || updating} disabled={creating || updating}>
-          {initialValues ? "Update" : "Add"} Shipping
+          {initialValues
+            ? t("form:button-label-update")
+            : t("form:button-label-add")}{" "}
+          {t("form:button-label-shipping")}
         </Button>
       </div>
     </form>

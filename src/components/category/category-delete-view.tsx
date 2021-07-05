@@ -1,16 +1,18 @@
 import ConfirmationCard from "@components/common/confirmation-card";
-import { useUI } from "@contexts/ui.context";
+import {
+  useModalAction,
+  useModalState,
+} from "@components/ui/modal/modal.context";
 import { useDeleteCategoryMutation } from "@data/category/use-category-delete.mutation";
 
 const CategoryDeleteView = () => {
-  const {
-    mutate: deleteCategory,
-    isLoading: loading,
-  } = useDeleteCategoryMutation();
+  const { mutate: deleteCategory, isLoading: loading } =
+    useDeleteCategoryMutation();
 
-  const { closeModal, modalData } = useUI();
+  const { data } = useModalState();
+  const { closeModal } = useModalAction();
   function handleDelete() {
-    deleteCategory(modalData);
+    deleteCategory(data);
     closeModal();
   }
   return (

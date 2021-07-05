@@ -21,7 +21,7 @@ const variantClasses = {
   info: "bg-blue-100 text-blue-600",
   warning: "bg-yellow-100 text-yellow-600",
   error: "bg-red-100 text-red-500",
-  success: "bg-green-100 text-primary",
+  success: "bg-green-100 text-accent",
   infoOutline: "border border-blue-200 text-blue-600",
   warningOutline: "border border-yellow-200 text-yellow-600",
   errorOutline: "border border-red-200 text-red-600",
@@ -51,7 +51,7 @@ const Alert: React.FC<AlertProps> = ({
           aria-label="Close"
           onClick={onClose}
           title="Close alert"
-          className="-mr-0.5 -mt-3 flex items-center justify-center rounded-full flex-shrink-0 w-6 h-6 text-red-500 absolute right-2 top-1/2 transition-colors duration-200 hover:bg-gray-300 hover:bg-opacity-25 focus:outline-none focus:bg-gray-300 focus:bg-opacity-25"
+          className="-me-0.5 -mt-3 flex items-center justify-center rounded-full flex-shrink-0 w-6 h-6 text-red-500 absolute end-2 top-1/2 transition-colors duration-200 hover:bg-gray-300 hover:bg-opacity-25 focus:outline-none focus:bg-gray-300 focus:bg-opacity-25"
         >
           <span aria-hidden="true">
             <CloseIcon className="w-3 h-3" />

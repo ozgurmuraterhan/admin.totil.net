@@ -1,3 +1,4 @@
+import { adminAndOwnerOnly, adminOwnerAndStaffOnly } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 
 export const siteSettings = {
@@ -18,38 +19,138 @@ export const siteSettings = {
   },
   headerLinks: [],
   authorizedLinks: [
-    { href: ROUTES.SETTINGS, label: "Settings" },
-    { href: ROUTES.PROFILE_UPDATE, label: "Profile" },
-    { href: ROUTES.LOGOUT, label: "Logout" },
+    {
+      href: ROUTES.PROFILE_UPDATE,
+      labelTransKey: "authorized-nav-item-profile",
+    },
+    {
+      href: ROUTES.LOGOUT,
+      labelTransKey: "authorized-nav-item-logout",
+    },
   ],
   currencyCode: "USD",
-  sidebarLinks: [
-    {
-      href: ROUTES.DASHBOARD,
-      label: "Dashboard",
-      icon: "DashboardIcon",
-    },
-    { href: ROUTES.PRODUCTS, label: "Products", icon: "ProductsIcon" },
-    { href: ROUTES.ATTRIBUTES, label: "Attributes", icon: "AttributeIcon" },
-    {
-      href: ROUTES.ATTRIBUTE_VALUES,
-      label: "Attribute Values",
-      icon: "AttributeValueIcon",
-    },
-    { href: ROUTES.TYPES, label: "Types", icon: "TypesIcon" },
-    { href: ROUTES.CATEGORIES, label: "Categories", icon: "CategoriesIcon" },
-    { href: ROUTES.ORDERS, label: "Orders", icon: "OrdersIcon" },
-    {
-      href: ROUTES.ORDER_STATUS,
-      label: "Order Status",
-      icon: "OrdersStatusIcon",
-    },
-    { href: ROUTES.CUSTOMERS, label: "Customers", icon: "UsersIcon" },
-    { href: ROUTES.COUPONS, label: "Coupons", icon: "CouponsIcon" },
-    { href: ROUTES.TAXES, label: "Taxes", icon: "TaxesIcon" },
-    { href: ROUTES.SHIPPINGS, label: "Shippings", icon: "ShippingsIcon" },
-    { href: ROUTES.SETTINGS, label: "Settings", icon: "SettingsIcon" },
-  ],
+  sidebarLinks: {
+    admin: [
+      {
+        href: ROUTES.DASHBOARD,
+        label: "sidebar-nav-item-dashboard",
+        icon: "DashboardIcon",
+      },
+      {
+        href: ROUTES.SHOPS,
+        label: "sidebar-nav-item-shops",
+        icon: "ShopIcon",
+      },
+      {
+        href: ROUTES.ADMIN_MY_SHOPS,
+        label: "sidebar-nav-item-my-shops",
+        icon: "MyShopIcon",
+      },
+      {
+        href: ROUTES.PRODUCTS,
+        label: "sidebar-nav-item-products",
+        icon: "ProductsIcon",
+      },
+      {
+        href: ROUTES.ATTRIBUTES,
+        label: "sidebar-nav-item-attributes",
+        icon: "AttributeIcon",
+      },
+      {
+        href: ROUTES.GROUPS,
+        label: "sidebar-nav-item-groups",
+        icon: "TypesIcon",
+      },
+      {
+        href: ROUTES.CATEGORIES,
+        label: "sidebar-nav-item-categories",
+        icon: "CategoriesIcon",
+      },
+      {
+        href: ROUTES.TAGS,
+        label: "sidebar-nav-item-tags",
+        icon: "TagIcon",
+      },
+      {
+        href: ROUTES.ORDERS,
+        label: "sidebar-nav-item-orders",
+        icon: "OrdersIcon",
+      },
+      {
+        href: ROUTES.ORDER_STATUS,
+        label: "sidebar-nav-item-order-status",
+        icon: "OrdersStatusIcon",
+      },
+      {
+        href: ROUTES.USERS,
+        label: "sidebar-nav-item-users",
+        icon: "UsersIcon",
+      },
+      {
+        href: ROUTES.COUPONS,
+        label: "sidebar-nav-item-coupons",
+        icon: "CouponsIcon",
+      },
+      {
+        href: ROUTES.TAXES,
+        label: "sidebar-nav-item-taxes",
+        icon: "TaxesIcon",
+      },
+      {
+        href: ROUTES.SHIPPINGS,
+        label: "sidebar-nav-item-shippings",
+        icon: "ShippingsIcon",
+      },
+      {
+        href: ROUTES.WITHDRAWS,
+        label: "sidebar-nav-item-withdraws",
+        icon: "WithdrawIcon",
+      },
+      {
+        href: ROUTES.SETTINGS,
+        label: "sidebar-nav-item-settings",
+        icon: "SettingsIcon",
+      },
+    ],
+    shop: [
+      {
+        href: (shop: string) => `${ROUTES.DASHBOARD}${shop}`,
+        label: "sidebar-nav-item-dashboard",
+        icon: "DashboardIcon",
+        permissions: adminOwnerAndStaffOnly,
+      },
+      {
+        href: (shop: string) => `/${shop}${ROUTES.ATTRIBUTES}`,
+        label: "sidebar-nav-item-attributes",
+        icon: "AttributeIcon",
+        permissions: adminOwnerAndStaffOnly,
+      },
+      {
+        href: (shop: string) => `/${shop}${ROUTES.PRODUCTS}`,
+        label: "sidebar-nav-item-products",
+        icon: "ProductsIcon",
+        permissions: adminOwnerAndStaffOnly,
+      },
+      {
+        href: (shop: string) => `/${shop}${ROUTES.ORDERS}`,
+        label: "sidebar-nav-item-orders",
+        icon: "OrdersIcon",
+        permissions: adminOwnerAndStaffOnly,
+      },
+      {
+        href: (shop: string) => `/${shop}${ROUTES.STAFFS}`,
+        label: "sidebar-nav-item-staffs",
+        icon: "UsersIcon",
+        permissions: adminAndOwnerOnly,
+      },
+      {
+        href: (shop: string) => `/${shop}${ROUTES.WITHDRAWS}`,
+        label: "sidebar-nav-item-withdraws",
+        icon: "AttributeIcon",
+        permissions: adminAndOwnerOnly,
+      },
+    ],
+  },
   product: {
     placeholder: "/product-placeholder.svg",
   },

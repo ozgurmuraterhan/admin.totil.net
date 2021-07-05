@@ -20,7 +20,7 @@ export const useCreateTypeMutation = () => {
       Type.create(API_ENDPOINTS.TYPES, input),
     {
       onSuccess: () => {
-        router.push(ROUTES.TYPES);
+        router.push(ROUTES.GROUPS);
       },
       // Always refetch after error or success:
       onSettled: () => {

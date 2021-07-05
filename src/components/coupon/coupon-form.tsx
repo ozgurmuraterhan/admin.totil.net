@@ -12,6 +12,7 @@ import { useSettings } from "@contexts/settings.context";
 import { AttachmentInput, Coupon, CouponType } from "@ts-types/generated";
 import { useCreateCouponMutation } from "@data/coupon/use-coupon-create.mutation";
 import { useUpdateCouponMutation } from "@data/coupon/use-coupon-update.mutation";
+import { useTranslation } from "next-i18next";
 import FileInput from "@components/ui/file-input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { couponValidationSchema } from "./coupon-validation-schema";
@@ -38,6 +39,7 @@ type IProps = {
 };
 export default function CreateOrUpdateCouponForm({ initialValues }: IProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -58,14 +60,10 @@ export default function CreateOrUpdateCouponForm({ initialValues }: IProps) {
     resolver: yupResolver(couponValidationSchema),
   });
   const { currency } = useSettings();
-  const {
-    mutate: createCoupon,
-    isLoading: creating,
-  } = useCreateCouponMutation();
-  const {
-    mutate: updateCoupon,
-    isLoading: updating,
-  } = useUpdateCouponMutation();
+  const { mutate: createCoupon, isLoading: creating } =
+    useCreateCouponMutation();
+  const { mutate: updateCoupon, isLoading: updating } =
+    useUpdateCouponMutation();
 
   const [active_from, expire_at] = watch(["active_from", "expire_at"]);
   const couponType = watch("type");
@@ -126,11 +124,11 @@ export default function CreateOrUpdateCouponForm({ initialValues }: IProps) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-wrap pb-8 border-b border-dashed border-gray-300 my-5 sm:my-8">
+      <div className="flex flex-wrap pb-8 border-b border-dashed border-border-base my-5 sm:my-8">
         <Description
-          title="Image"
-          details="Upload your coupon image here"
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+          title={t("form:input-label-image")}
+          details={t("form:coupon-image-helper-text")}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
@@ -140,47 +138,47 @@ export default function CreateOrUpdateCouponForm({ initialValues }: IProps) {
 
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description
-          title="Description"
+          title={t("form:input-label-description")}
           details={`${
-            initialValues ? "Edit" : "Add"
-          } your coupon description and necessary information from here`}
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8 "
+            initialValues
+              ? t("form:item-description-edit")
+              : t("form:item-description-add")
+          } ${t("form:coupon-form-info-help-text")}`}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8 "
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
           <Input
-            label="Code"
+            label={t("form:input-label-code")}
             {...register("code")}
-            error={errors.code?.message}
+            error={t(errors.code?.message!)}
             variant="outline"
             className="mb-5"
           />
 
           <TextArea
-            label="Description"
+            label={t("form:input-label-description")}
             {...register("description")}
-            error={errors.description?.message}
             variant="outline"
             className="mb-5"
           />
           {couponType !== CouponType.FreeShippingCoupon && (
             <Input
-              label={`Amount(${currency})`}
+              label={`${t("form:input-label-amount")}(${currency})`}
               {...register("amount")}
               type="number"
-              error={errors.amount?.message}
+              error={t(errors.amount?.message!)}
               variant="outline"
               className="mb-5"
             />
           )}
           <div className="flex flex-col sm:flex-row">
-            <div className="w-full sm:w-1/2 p-0 sm:pr-2 mb-5 sm:mb-0">
-              <Label>Active From</Label>
+            <div className="w-full sm:w-1/2 p-0 sm:pe-2 mb-5 sm:mb-0">
+              <Label>{t("form:coupon-active-from")}</Label>
 
               <Controller
                 control={control}
                 name="active_from"
-                rules={{ required: "Active from date is required" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   //@ts-ignore
                   <DatePicker
@@ -193,19 +191,18 @@ export default function CreateOrUpdateCouponForm({ initialValues }: IProps) {
                     maxDate={expire_at}
                     startDate={active_from}
                     endDate={expire_at}
-                    className="border border-gray-300"
+                    className="border border-border-base"
                   />
                 )}
               />
-              <ValidationError message={errors.active_from?.message} />
+              <ValidationError message={t(errors.active_from?.message!)} />
             </div>
-            <div className="w-full sm:w-1/2 p-0 sm:pl-2">
-              <Label>Expire At</Label>
+            <div className="w-full sm:w-1/2 p-0 sm:ps-2">
+              <Label>{t("form:coupon-expire-at")}</Label>
 
               <Controller
                 control={control}
                 name="expire_at"
-                rules={{ required: "Expire date is required" }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   //@ts-ignore
                   <DatePicker
@@ -217,29 +214,31 @@ export default function CreateOrUpdateCouponForm({ initialValues }: IProps) {
                     startDate={active_from}
                     endDate={expire_at}
                     minDate={active_from}
-                    className="border border-gray-300"
+                    className="border border-border-base"
                   />
                 )}
               />
-              <ValidationError message={errors.expire_at?.message} />
+              <ValidationError message={t(errors.expire_at?.message!)} />
             </div>
           </div>
         </Card>
       </div>
-      <div className="mb-4 text-right">
+      <div className="mb-4 text-end">
         {initialValues && (
           <Button
             variant="outline"
             onClick={router.back}
-            className="mr-4"
+            className="me-4"
             type="button"
           >
-            Back
+            {t("form:button-label-back")}
           </Button>
         )}
 
         <Button loading={updating || creating}>
-          {initialValues ? "Update Coupon" : "Add Coupon"}
+          {initialValues
+            ? t("form:button-label-update-coupon")
+            : t("form:button-label-add-coupon")}
         </Button>
       </div>
     </form>

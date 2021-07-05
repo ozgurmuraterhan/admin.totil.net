@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "react-query";
-import Type from "@repositories/product";
+import Type from "@repositories/type";
 import { API_ENDPOINTS } from "@utils/api/endpoints";
 
 export const useDeleteTypeMutation = () => {

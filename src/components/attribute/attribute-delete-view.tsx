@@ -1,16 +1,18 @@
 import ConfirmationCard from "@components/common/confirmation-card";
-import { useUI } from "@contexts/ui.context";
+import {
+  useModalAction,
+  useModalState,
+} from "@components/ui/modal/modal.context";
 import { useDeleteAttributeMutation } from "@data/attributes/use-attribute-delete.mutation";
 
 const AttributeDeleteView = () => {
-  const {
-    mutate: deleteAttributeByID,
-    isLoading: loading,
-  } = useDeleteAttributeMutation();
+  const { mutate: deleteAttributeByID, isLoading: loading } =
+    useDeleteAttributeMutation();
 
-  const { closeModal, modalData } = useUI();
+  const { data } = useModalState();
+  const { closeModal } = useModalAction();
   async function handleDelete() {
-    deleteAttributeByID(modalData);
+    deleteAttributeByID(data);
     closeModal();
   }
   return (

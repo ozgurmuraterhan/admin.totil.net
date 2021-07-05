@@ -1,11 +1,13 @@
 import React from "react";
 import { IosArrowDown } from "@components/icons/ios-arrow-down";
 import { IosArrowUp } from "@components/icons/ios-arrow-up";
+import { useTranslation } from "next-i18next";
 
 const StickerCard = ({
-  title,
-  subtitle,
+  titleTransKey,
+  subtitleTransKey,
   icon,
+  iconBgStyle,
   price,
   indicator,
   indicatorText,
@@ -13,17 +15,23 @@ const StickerCard = ({
   link,
   linkText,
 }: any) => {
+  const { t } = useTranslation("widgets");
   return (
-    <div className="flex flex-col w-full h-full p-7 rounded bg-white">
+    <div className="flex flex-col w-full h-full p-7 rounded bg-light">
       <div className="w-full flex justify-between mb-auto pb-8">
         <div className="w-full flex flex-col">
           <span className="text-base text-heading font-semibold mb-1">
-            {title}
+            {t(titleTransKey)}
           </span>
-          <span className="text-xs text-body font-semibold">{subtitle}</span>
+          <span className="text-xs text-body font-semibold">
+            {t(subtitleTransKey)}
+          </span>
         </div>
 
-        <div className="w-12 h-12 flex items-center justify-center ml-3">
+        <div
+          className="w-12 h-12 rounded-full bg-gray-200 flex flex-shrink-0 items-center justify-center ms-3"
+          style={iconBgStyle}
+        >
           {icon}
         </div>
       </div>

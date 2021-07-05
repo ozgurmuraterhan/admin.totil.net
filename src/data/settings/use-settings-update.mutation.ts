@@ -4,12 +4,14 @@ import { toast } from "react-toastify";
 import Settings from "@repositories/settings";
 import { API_ENDPOINTS } from "@utils/api/endpoints";
 import { useSettings } from "@contexts/settings.context";
+import { useTranslation } from "next-i18next";
 
 export interface ISettingsUpdateVariables {
   variables: { input: SettingsInput };
 }
 
 export const useUpdateSettingsMutation = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { updateSettings } = useSettings();
 
@@ -19,7 +21,7 @@ export const useUpdateSettingsMutation = () => {
     {
       onSuccess: ({ data }) => {
         updateSettings(data?.options);
-        toast.success("Successfully updated!");
+        toast.success(t("common:successfully-updated"));
       },
       // Always refetch after error or success:
       onSettled: () => {

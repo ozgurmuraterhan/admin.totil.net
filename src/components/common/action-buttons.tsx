@@ -1,77 +1,118 @@
 import { BanUser } from "@components/icons/ban-user";
-import Edit from "@components/icons/edit";
+import EditIcon from "@components/icons/edit";
 import Trash from "@components/icons/trash";
-import { useUI } from "@contexts/ui.context";
+import { Eye } from "@components/icons/eye-icon";
 import Link from "@components/ui/link";
+import { useTranslation } from "next-i18next";
 import { CheckMarkCircle } from "@components/icons/checkmark-circle";
+import { useModalAction } from "@components/ui/modal/modal.context";
+import { CloseFillIcon } from "@components/icons/close-fill";
 
 type Props = {
   id: string;
-  modalActionType: string;
-  navigationPath?: string;
-  editButton?: boolean;
-  deleteButton?: boolean;
-  banButton?: boolean;
-  activeButton?: boolean;
-  editButtonText?: string;
+  deleteModalView?: string;
+  editUrl?: string;
+  detailsUrl?: string;
+  isUserActive?: boolean;
+  userStatus?: boolean;
+  isShopActive?: boolean;
+  approveButton?: boolean;
 };
 
 const ActionButtons = ({
   id,
-  modalActionType,
-  editButton = true,
-  deleteButton = true,
-  banButton = false,
-  activeButton = false,
-  navigationPath,
+  deleteModalView,
+  editUrl,
+  detailsUrl,
+  userStatus = false,
+  isUserActive = false,
+  isShopActive,
+  approveButton = false,
 }: Props) => {
-  const { openModal, setModalData, setModalView } = useUI();
+  const { t } = useTranslation();
+  const { openModal } = useModalAction();
   function handleDelete() {
-    setModalView(modalActionType);
-    setModalData(id);
-    return openModal();
+    openModal(deleteModalView, id);
   }
-  function handleCustomer(type: string) {
-    setModalView(modalActionType);
-    setModalData({ id, type });
-    return openModal();
+  function handleUserStatus(type: string) {
+    openModal("BAN_CUSTOMER", { id, type });
+  }
+  function handleShopStatus(status: boolean) {
+    if (status === true) {
+      openModal("SHOP_APPROVE_VIEW", id);
+    } else {
+      openModal("SHOP_DISAPPROVE_VIEW", id);
+    }
   }
   return (
-    <div className="space-x-3 inline-flex items-center w-auto">
-      {deleteButton && (
+    <div className="space-s-5 inline-flex items-center w-auto">
+      {deleteModalView && (
         <button
           onClick={handleDelete}
           className="text-red-500 transition duration-200 hover:text-red-600 focus:outline-none"
+          title={t("text-delete")}
         >
           <Trash width={16} />
         </button>
       )}
-      {banButton && (
-        <button
-          onClick={() => handleCustomer("ban")}
-          className="text-red-500 transition duration-200 hover:text-red-600 focus:outline-none"
-          title="Ban User"
-        >
-          <BanUser width={20} />
-        </button>
+      {approveButton &&
+        (!isShopActive ? (
+          <button
+            onClick={() => handleShopStatus(true)}
+            className="text-accent transition duration-200 hover:text-accent-hover focus:outline-none"
+            title={t("text-approve-shop")}
+          >
+            <CheckMarkCircle width={20} />
+          </button>
+        ) : (
+          <button
+            onClick={() => handleShopStatus(false)}
+            className="text-red-500 transition duration-200 hover:text-red-600 focus:outline-none"
+            title={t("text-approve-shop")}
+          >
+            <CloseFillIcon width={20} />
+          </button>
+        ))}
+      {userStatus && (
+        <>
+          {isUserActive ? (
+            <button
+              onClick={() => handleUserStatus("ban")}
+              className="text-red-500 transition duration-200 hover:text-red-600 focus:outline-none"
+              title={t("text-ban-user")}
+            >
+              <BanUser width={20} />
+            </button>
+          ) : (
+            <button
+              onClick={() => handleUserStatus("active")}
+              className="text-accent transition duration-200 hover:text-accent focus:outline-none"
+              title={t("text-activate-user")}
+            >
+              <CheckMarkCircle width={20} />
+            </button>
+          )}
+        </>
       )}
-      {activeButton && (
-        <button
-          onClick={() => handleCustomer("active")}
-          className="text-primary transition duration-200 hover:text-gossamer-700 focus:outline-none"
-          title="Activate User"
-        >
-          <CheckMarkCircle width={20} />
-        </button>
-      )}
-      {editButton && navigationPath ? (
+
+      {editUrl && (
         <Link
-          href={navigationPath}
-          className="text-body transition duration-200 hover:text-heading"
+          href={editUrl}
+          className="text-base transition duration-200 hover:text-heading"
+          title={t("text-edit")}
         >
-          <Edit width={16} />
+          <EditIcon width={16} />
         </Link>
-      ) : null}
+      )}
+      {detailsUrl && (
+        <Link
+          href={detailsUrl}
+          className="ml-2 text-base transition duration-200 hover:text-heading"
+          title={t("text-view")}
+        >
+          <Eye width={24} />
+        </Link>
+      )}
     </div>
   );
 };

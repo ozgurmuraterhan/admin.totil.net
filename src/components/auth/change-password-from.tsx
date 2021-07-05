@@ -5,6 +5,7 @@ import Description from "@components/ui/description";
 import { toast } from "react-toastify";
 import PasswordInput from "@components/ui/password-input";
 import { useChangePasswordMutation } from "@data/user/use-change-password.mutation";
+import { useTranslation } from "next-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
@@ -15,19 +16,18 @@ interface FormValues {
 }
 
 const changePasswordSchema = yup.object().shape({
-  oldPassword: yup.string().required(),
-  newPassword: yup.string().required(),
+  oldPassword: yup.string().required("form:error-old-password-required"),
+  newPassword: yup.string().required("form:error-password-required"),
   passwordConfirmation: yup
     .string()
-    .oneOf([yup.ref("newPassword")], "Mismatched passwords")
-    .required("Please confirm your password"),
+    .oneOf([yup.ref("newPassword")], "form:error-match-passwords")
+    .required("form:error-confirm-password"),
 });
 
 const ChangePasswordForm = () => {
-  const {
-    mutate: changePassword,
-    isLoading: loading,
-  } = useChangePasswordMutation();
+  const { t } = useTranslation();
+  const { mutate: changePassword, isLoading: loading } =
+    useChangePasswordMutation();
   const {
     register,
     handleSubmit,
@@ -65,7 +65,7 @@ const ChangePasswordForm = () => {
               message: data?.message ?? "",
             });
           } else if (data?.success) {
-            toast.success("Successfully changed your password!");
+            toast.success(t("common:password-changed-successfully"));
             reset();
           }
         },
@@ -77,37 +77,37 @@ const ChangePasswordForm = () => {
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description
-          title="Password"
-          details="Change your password from here"
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+          title={t("form:input-label-password")}
+          details={t("form:password-help-text")}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3 mb-5">
           <PasswordInput
-            label="Old Password"
+            label={t("form:input-label-old-password")}
             {...register("oldPassword")}
             variant="outline"
-            error={errors.oldPassword?.message}
+            error={t(errors.oldPassword?.message!)}
             className="mb-5"
           />
           <PasswordInput
-            label="New Password"
+            label={t("form:input-label-new-password")}
             {...register("newPassword")}
             variant="outline"
-            error={errors.newPassword?.message}
+            error={t(errors.newPassword?.message!)}
             className="mb-5"
           />
           <PasswordInput
-            label="Confirm Password"
+            label={t("form:input-label-confirm-password")}
             {...register("passwordConfirmation")}
             variant="outline"
-            error={errors.passwordConfirmation?.message}
+            error={t(errors.passwordConfirmation?.message!)}
           />
         </Card>
 
-        <div className="w-full text-right">
+        <div className="w-full text-end">
           <Button loading={loading} disabled={loading}>
-            Change Password
+            {t("form:button-label-change-password")}
           </Button>
         </div>
       </div>

@@ -10,14 +10,14 @@ const MapWidget = ({ data, totalText }: any) => {
   };
 
   return (
-    <div className="bg-white shadow-sm rounded w-full h-full">
+    <div className="bg-light shadow-sm rounded w-full h-full">
       <div className="flex w-full my-auto mx-0 py-12 px-9">
-        <div className="w-5/12 flex flex-col items-center justify-center py-12 pr-8">
+        <div className="w-5/12 flex flex-col items-center justify-center py-12 pe-8">
           <span className="text-xs text-body mb-1 whitespace-nowrap">
             {totalText}
           </span>
 
-          <span className="text-xl text-heading font-medium">
+          <span className="text-xl text-heading font-semibold">
             {numberWithCommas(
               data.reduce((a: any, { value }: any) => a + value, 0)
             )}
@@ -27,14 +27,14 @@ const MapWidget = ({ data, totalText }: any) => {
         <div className="w-7/12 flex flex-col">
           {data.map((item: any, index: number) => (
             <div
-              className="w-full flex flex-col mb-4 pr-12 last:mb-0"
+              className="w-full flex flex-col mb-4 pe-12 last:mb-0"
               key={index}
             >
               <div className="w-full flex items-baseline mb-3">
-                <span className="text-sm text-heading font-medium">
+                <span className="text-sm text-heading font-semibold">
                   {item.name}
                 </span>
-                <span className="text-xs font-medium  text-heading ml-2">
+                <span className="text-xs font-semibold  text-heading ms-2">
                   ({numberWithCommas(item.value)})
                 </span>
               </div>
@@ -52,7 +52,7 @@ const MapWidget = ({ data, totalText }: any) => {
           ))}
         </div>
       </div>
-      <div className="w-full flex border border-gray-100">
+      <div className="w-full flex border border-border-100">
         <div className="w-full flex flex-wrap  flex-shrink-0 py-5 px-5 md:px-4 justify-around">
           {data.map((item: any, index: number) => (
             <div
@@ -61,12 +61,12 @@ const MapWidget = ({ data, totalText }: any) => {
             >
               <span className="text-xs text-body mb-1 whitespace-nowrap truncate">
                 <span
-                  className="w-2 h-2 inline-block rounded-full mr-1"
+                  className="w-2 h-2 inline-block rounded-full me-1"
                   style={{ backgroundColor: item.color }}
                 />
                 {item.name}
               </span>
-              <span className="text-xl text-heading font-medium">
+              <span className="text-xl text-heading font-semibold">
                 {numberWithCommas(item.value)}
               </span>
             </div>

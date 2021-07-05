@@ -93,9 +93,9 @@ const LineChart = ({
   };
 
   return (
-    <div className="bg-white shadow-sm rounded w-full h-full">
+    <div className="bg-light shadow-sm rounded w-full h-full">
       <div className="p-8 flex items-start justify-between">
-        <h3 className="text-base font-medium text-heading">{widgetTitle}</h3>
+        <h3 className="text-base font-semibold text-heading">{widgetTitle}</h3>
       </div>
 
       <div className="w-full">

@@ -14,6 +14,11 @@ const SelectInput = ({
   options,
   name,
   rules,
+  getOptionLabel,
+  getOptionValue,
+  isMulti,
+  isClearable,
+  isLoading,
   ...rest
 }: SelectInputProps) => {
   return (
@@ -21,8 +26,18 @@ const SelectInput = ({
       control={control}
       name={name}
       rules={rules}
-      // defaultValue={[]}
-      render={({ field }) => <Select {...field} {...rest} options={options} />}
+      {...rest}
+      render={({ field }) => (
+        <Select
+          {...field}
+          getOptionLabel={getOptionLabel}
+          getOptionValue={getOptionValue}
+          isMulti={isMulti}
+          isClearable={isClearable}
+          isLoading={isLoading}
+          options={options}
+        />
+      )}
     />
   );
 };

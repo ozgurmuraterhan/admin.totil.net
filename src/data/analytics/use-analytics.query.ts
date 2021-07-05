@@ -8,7 +8,5 @@ export const fetchAnalytics = async () => {
 };
 
 export const useAnalyticsQuery = () => {
-  return useQuery<TAnalytics, Error>([API_ENDPOINTS.ANALYTICS], () =>
-    fetchAnalytics()
-  );
+  return useQuery<TAnalytics, Error>([API_ENDPOINTS.ANALYTICS], fetchAnalytics);
 };

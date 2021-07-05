@@ -1,3 +1,4 @@
+import { getAuthCredentials } from "@utils/auth-utils";
 import { ROUTES } from "@utils/routes";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -15,7 +16,7 @@ const http = axios.create({
 // Change request data/error here
 http.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("auth_token");
+    const { token } = getAuthCredentials();
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${token}`,
@@ -35,10 +36,11 @@ http.interceptors.response.use(
   (error) => {
     if (
       (error.response && error.response.status === 401) ||
-      (error.response && error.response.status === 403)
+      (error.response && error.response.status === 403) ||
+      (error.response &&
+        error.response.data.message === "PICKBAZAR_ERROR.NOT_AUTHORIZED")
     ) {
-      Cookies.remove("auth_token");
-      Cookies.remove("auth_permissions");
+      Cookies.remove("AUTH_CRED");
       Router.push(ROUTES.LOGIN);
     }
     return Promise.reject(error);

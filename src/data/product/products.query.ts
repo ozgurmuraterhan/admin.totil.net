@@ -14,6 +14,7 @@ const fetchProducts = async ({ queryKey }: QueryParamsType) => {
     text,
     type,
     category,
+    shop_id,
     status,
     limit = 15,
     orderBy = "updated_at",
@@ -24,6 +25,7 @@ const fetchProducts = async ({ queryKey }: QueryParamsType) => {
     type,
     category,
     status,
+    shop_id,
   });
   const url = `${API_ENDPOINTS.PRODUCTS}?search=${searchString}&searchJoin=and&limit=${limit}&page=${page}&orderBy=${orderBy}&sortedBy=${sortedBy}`;
   const {
@@ -32,14 +34,14 @@ const fetchProducts = async ({ queryKey }: QueryParamsType) => {
   return { products: { data, paginatorInfo: mapPaginatorData({ ...rest }) } };
 };
 
-const useProductsQuery = (options: ProductsQueryOptionsType) => {
-  return useQuery<any, Error>(
-    [API_ENDPOINTS.PRODUCTS, options],
-    fetchProducts,
-    {
-      keepPreviousData: true,
-    }
-  );
+const useProductsQuery = (
+  params: ProductsQueryOptionsType,
+  options: any = {}
+) => {
+  return useQuery<any, Error>([API_ENDPOINTS.PRODUCTS, params], fetchProducts, {
+    ...options,
+    keepPreviousData: true,
+  });
 };
 
 export { useProductsQuery, fetchProducts };

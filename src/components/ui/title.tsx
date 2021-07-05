@@ -9,7 +9,7 @@ const Title: React.FC<Props> = ({ className = "mb-3", ...rest }) => {
   return (
     <span
       className={cn(
-        "block text-gray-600 font-semibold text-sm leading-none",
+        "block text-body-dark font-semibold text-sm leading-none",
         className
       )}
       {...rest}

@@ -45,7 +45,7 @@ const NotificationMenu: React.FC<MenuType> = ({ data }) => {
       >
         <Bell className="h-5 w-5" />
 
-        <div className="flex absolute -top-1 right-0 text-green-500">
+        <div className="flex absolute -top-1 end-0 text-green-500">
           <Dot />
         </div>
       </button>
@@ -63,14 +63,14 @@ const NotificationMenu: React.FC<MenuType> = ({ data }) => {
                 stiffness: 800,
                 damping: 35,
               }}
-              className="w-80 bg-white rounded shadow-base z-20 overflow-hidden"
+              className="w-80 bg-light rounded shadow-base z-20 overflow-hidden"
             >
-              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-border-200">
                 <span className="text-lg text-heading font-semibold">
                   Notification
                 </span>
 
-                <button className="text-red-500 text-sm font-medium transition duration-200 hover:text-red-600 focus:outline-none focus:ring-1">
+                <button className="text-red-500 text-sm font-semibold transition duration-200 hover:text-red-600 focus:outline-none focus:ring-1">
                   Clear all
                 </button>
               </div>
@@ -84,8 +84,8 @@ const NotificationMenu: React.FC<MenuType> = ({ data }) => {
                   />
                 ))
               ) : (
-                <div className="bg-white flex items-center justify-center border-b border-gray-200">
-                  <p className="text-sm text-gray-500 py-5">
+                <div className="bg-light flex items-center justify-center border-b border-border-200">
+                  <p className="text-sm text-body py-5">
                     You don't have any notifications.
                   </p>
                 </div>
@@ -93,7 +93,7 @@ const NotificationMenu: React.FC<MenuType> = ({ data }) => {
 
               <a
                 href="#"
-                className="flex items-center justify-center bg-white text-sm text-green-500 font-semibold h-11 px-4 transition duration-200 ease-in-out hover:text-green-600"
+                className="flex items-center justify-center bg-light text-sm text-green-500 font-semibold h-11 px-4 transition duration-200 ease-in-out hover:text-green-600"
               >
                 See all notifications
               </a>

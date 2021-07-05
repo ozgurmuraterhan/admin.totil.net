@@ -1,5 +1,4 @@
-import type { AppProps /*, AppContext */ } from "next/app";
-import Head from "next/head";
+import type { AppProps } from "next/app";
 import "@fontsource/open-sans";
 import "@fontsource/open-sans/600.css";
 import "@fontsource/open-sans/700.css";
@@ -15,6 +14,11 @@ import { Hydrate } from "react-query/hydration";
 import { useRef } from "react";
 import { useSettingsQuery } from "@data/settings/use-settings.query";
 import { ReactQueryDevtools } from "react-query/devtools";
+import { appWithTranslation } from "next-i18next";
+import { ModalProvider } from "@components/ui/modal/modal.context";
+import DefaultSeo from "@components/ui/default-seo";
+import PrivateRoute from "@utils/private-route";
+import ManagedModal from "@components/ui/modal/managed-modal";
 
 const Noop: React.FC = ({ children }) => <>{children}</>;
 
@@ -25,37 +29,43 @@ const AppSettings: React.FC = (props) => {
   return <SettingsProvider initialValue={data?.options} {...props} />;
 };
 
-export default function CustomApp({ Component, pageProps }: AppProps) {
+const CustomApp = ({ Component, pageProps }: AppProps) => {
   const queryClientRef = useRef<any>(null);
   if (!queryClientRef.current) {
     queryClientRef.current = new QueryClient();
   }
   const Layout = (Component as any).Layout || Noop;
+  const authProps = (Component as any).authenticate;
 
   return (
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
         <AppSettings>
           <UIProvider>
-            <Layout>
-              <Head>
-                <title>PickBazar Admin</title>
-                <meta
-                  name="description"
-                  content="PickBazar E-Commerce Description"
-                />
-                <meta
-                  name="viewport"
-                  content="width=device-width, initial-scale=1 maximum-scale=1"
-                />
-              </Head>
-              <Component {...pageProps} />
-              <ToastContainer autoClose={2000} />
-            </Layout>
+            <ModalProvider>
+              <>
+                <DefaultSeo />
+                {authProps ? (
+                  <PrivateRoute authProps={authProps}>
+                    <Layout {...pageProps}>
+                      <Component {...pageProps} />
+                    </Layout>
+                  </PrivateRoute>
+                ) : (
+                  <Layout {...pageProps}>
+                    <Component {...pageProps} />
+                  </Layout>
+                )}
+                <ToastContainer autoClose={2000} />
+                <ManagedModal />
+              </>
+            </ModalProvider>
           </UIProvider>
         </AppSettings>
         <ReactQueryDevtools />
       </Hydrate>
     </QueryClientProvider>
   );
-}
+};
+
+export default appWithTranslation(CustomApp);

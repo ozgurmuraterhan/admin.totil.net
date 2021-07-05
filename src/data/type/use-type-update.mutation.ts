@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { toast } from "react-toastify";
 import Type from "@repositories/type";
 import { API_ENDPOINTS } from "@utils/api/endpoints";
-
+import { useTranslation } from "next-i18next";
 export interface ITypeUpdateVariables {
   variables: {
     id: string;
@@ -12,13 +12,14 @@ export interface ITypeUpdateVariables {
 }
 
 export const useUpdateTypeMutation = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   return useMutation(
     ({ variables: { id, input } }: ITypeUpdateVariables) =>
       Type.update(`${API_ENDPOINTS.TYPES}/${id}`, input),
     {
       onSuccess: () => {
-        toast.success("Successfully updated!");
+        toast.success(t("common:successfully-updated"));
       },
       // Always refetch after error or success:
       onSettled: () => {

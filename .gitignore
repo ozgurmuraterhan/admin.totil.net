@@ -39,4 +39,6 @@ __generated__
 *.graphql.d.ts
 *.graphqls.d.ts
 
-outpot.log
+# PWA
+workbox-*.js
+sw.js

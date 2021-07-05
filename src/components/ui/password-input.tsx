@@ -7,6 +7,7 @@ import Link from "./link";
 export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   inputClassName?: string;
+  forgotPassHelpText?: string;
   label: string;
   name: string;
   forgotPageLink?: string;
@@ -15,13 +16,12 @@ export interface Props extends InputHTMLAttributes<HTMLInputElement> {
   error: string | undefined;
 }
 const classes = {
-  root:
-    "px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
+  root: "px-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
   normal:
-    "bg-gray-100 border border-gray-300 focus:shadow focus:bg-white focus:border-primary",
+    "bg-gray-100 border border-border-base focus:shadow focus:bg-light focus:border-accent",
   solid:
-    "bg-gray-100 border border-gray-100 focus:bg-white focus:border-primary",
-  outline: "border border-gray-300 focus:border-primary",
+    "bg-gray-100 border border-border-100 focus:bg-light focus:border-accent",
+  outline: "border border-border-base focus:border-accent",
   shadow: "focus:shadow",
 };
 const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
@@ -29,6 +29,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
     {
       className,
       inputClassName,
+      forgotPassHelpText,
       label,
       name,
       error,
@@ -59,17 +60,17 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
         <div className="flex items-center justify-between mb-3">
           <label
             htmlFor={name}
-            className="text-gray-600 font-medium text-sm leading-none"
+            className="text-body-dark font-semibold text-sm leading-none"
           >
             {label}
           </label>
 
-          {forgotPageLink && (
+          {forgotPageLink && forgotPassHelpText && (
             <Link
               href={forgotPageLink}
-              className="text-xs text-primary transition-colors duration-200 focus:outline-none focus:text-blue-500 hover:text-primary-2"
+              className="text-xs text-accent transition-colors duration-200 focus:outline-none focus:text-accent-700 focus:font-semibold hover:text-accent-hover"
             >
-              Forgot password?
+              {forgotPassHelpText}
             </Link>
           )}
         </div>
@@ -88,7 +89,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
           />
           <label
             htmlFor={name}
-            className="absolute right-4 top-5 -mt-2 text-gray-500"
+            className="absolute end-4 top-5 -mt-2 text-body"
             onClick={() => setShow((prev) => !prev)}
           >
             {show ? (
@@ -99,7 +100,7 @@ const PasswordInput = React.forwardRef<HTMLInputElement, Props>(
           </label>
         </div>
         {error && (
-          <p className="my-2 text-xs text-left text-red-500">{error}</p>
+          <p className="my-2 text-xs text-start text-red-500">{error}</p>
         )}
       </div>
     );

@@ -5,6 +5,7 @@ import Description from "@components/ui/description";
 import Card from "@components/common/card";
 import { useUpdateUserMutation } from "@data/user/use-user-update.mutation";
 import TextArea from "@components/ui/text-area";
+import { useTranslation } from "next-i18next";
 import FileInput from "@components/ui/file-input";
 import pick from "lodash/pick";
 
@@ -23,6 +24,7 @@ type FormValues = {
 };
 
 export default function ProfileUpdate({ me }: any) {
+  const { t } = useTranslation();
   const { mutate: updateUser, isLoading: loading } = useUpdateUserMutation();
   const {
     register,
@@ -60,11 +62,11 @@ export default function ProfileUpdate({ me }: any) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-wrap pb-8 border-b border-dashed border-gray-300 my-5 sm:my-8">
+      <div className="flex flex-wrap pb-8 border-b border-dashed border-border-base my-5 sm:my-8">
         <Description
-          title="Avatar"
-          details="Upload your profile image from here. Dimension of the avatar should be 45 x 45px"
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+          title={t("form:input-label-avatar")}
+          details={t("form:avatar-help-text")}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
@@ -72,41 +74,40 @@ export default function ProfileUpdate({ me }: any) {
         </Card>
       </div>
 
-      <div className="flex flex-wrap pb-8 border-b border-dashed border-gray-300 my-5 sm:my-8">
+      <div className="flex flex-wrap pb-8 border-b border-dashed border-border-base my-5 sm:my-8">
         <Description
-          title="Information"
-          details="Add your profile information from here"
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+          title={t("form:form-title-information")}
+          details={t("form:profile-info-help-text")}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3 mb-5">
           <Input
-            label="Name"
+            label={t("form:input-label-name")}
             {...register("name")}
-            error={errors.name?.message}
+            error={t(errors.name?.message!)}
             variant="outline"
             className="mb-5"
           />
-
           <TextArea
-            label="Bio"
+            label={t("form:input-label-bio")}
             {...register("profile.bio")}
-            error={errors.name?.message}
+            error={t(errors.profile?.bio?.message!)}
             variant="outline"
             className="mb-6"
           />
           <Input
-            label="Contact"
+            label={t("form:input-label-contact")}
             {...register("profile.contact")}
-            error={errors.name?.message}
+            error={t(errors.profile?.contact?.message!)}
             variant="outline"
             className="mb-5"
           />
         </Card>
 
-        <div className="w-full text-right">
+        <div className="w-full text-end">
           <Button loading={loading} disabled={loading}>
-            Save
+            {t("form:button-label-save")}
           </Button>
         </div>
       </div>

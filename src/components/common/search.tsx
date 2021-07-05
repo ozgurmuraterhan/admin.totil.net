@@ -3,15 +3,15 @@ import { SearchIcon } from "@components/icons/search-icon";
 import cn from "classnames";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "next-i18next";
 
 const classes = {
-  root:
-    "pl-10 pr-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
+  root: "ps-10 pe-4 h-12 flex items-center w-full rounded appearance-none transition duration-300 ease-in-out text-heading text-sm focus:outline-none focus:ring-0",
   normal:
-    "bg-gray-100 border border-gray-300 focus:shadow focus:bg-white focus:border-primary",
+    "bg-gray-100 border border-border-base focus:shadow focus:bg-light focus:border-accent",
   solid:
-    "bg-gray-100 border border-gray-100 focus:bg-white focus:border-primary",
-  outline: "border border-gray-300 focus:border-primary",
+    "bg-gray-100 border border-border-100 focus:bg-light focus:border-accent",
+  outline: "border border-border-base focus:border-accent",
   shadow: "focus:shadow",
 };
 
@@ -48,6 +48,7 @@ const Search: React.FC<SearchProps> = ({
     },
   });
   const searchText = watch("searchText");
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!searchText) {
@@ -81,9 +82,9 @@ const Search: React.FC<SearchProps> = ({
       onSubmit={handleSubmit(onSearch)}
     >
       <label htmlFor="search" className="sr-only">
-        Search
+        {t("form:input-label-search")}
       </label>
-      <button className="outline-none absolute left-1 focus:outline-none active:outline-none p-2 text-gray-500">
+      <button className="outline-none absolute start-1 focus:outline-none active:outline-none p-2 text-body">
         <SearchIcon className="w-5 h-5" />
       </button>
       <input
@@ -91,7 +92,7 @@ const Search: React.FC<SearchProps> = ({
         id="search"
         {...register("searchText")}
         className={rootClassName}
-        placeholder="Type your query and press enter"
+        placeholder={t("form:input-placeholder-search")}
         aria-label="Search"
         autoComplete="off"
         {...rest}
@@ -101,7 +102,7 @@ const Search: React.FC<SearchProps> = ({
         <button
           type="button"
           onClick={clear}
-          className="outline-none absolute right-1 focus:outline-none active:outline-none p-2 text-gray-500"
+          className="outline-none absolute end-1 focus:outline-none active:outline-none p-2 text-body"
         >
           <CloseIcon className="w-5 h-5" />
         </button>

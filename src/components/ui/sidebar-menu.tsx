@@ -7,10 +7,13 @@ import { ExpandMoreIcon } from "@components/icons/expand-more-icon";
 import { getIcon } from "@utils/get-icon";
 import * as sidebarIcons from "@components/icons/sidebar";
 import { useUI } from "@contexts/ui.context";
+import { useTranslation } from "next-i18next";
+
 function SidebarMenuItem({ className, item, depth = 0 }: any) {
   const router = useRouter();
+  const { t } = useTranslation("common");
   const [isOpen, setOpen] = useState(() => router.pathname === item.href);
-  const { href, label, items, icon } = item;
+  const { href, labelTransKey, items, icon } = item;
   const { displaySidebar, closeSidebar } = useUI();
 
   function toggleCollapse() {
@@ -41,18 +44,17 @@ function SidebarMenuItem({ className, item, depth = 0 }: any) {
       >
         <button
           className={cn(
-            "flex w-full items-center text-left outline-none border-0 focus:outline-none focus:ring-0 focus:text-primary",
-            router.pathname === href ? "text-primary" : "text-heading",
-            isOpen ? "text-primary" : "text-gray-600",
-            className ? className : "text-base"
+            "flex w-full items-center text-base text-start outline-none border-0 focus:outline-none focus:ring-0 focus:text-accent",
+            router.pathname === href ? "text-accent" : "text-heading",
+            className
           )}
         >
           {getIcon({
             iconList: sidebarIcons,
             iconName: icon,
-            className: "w-5 h-5 mr-4",
+            className: "w-5 h-5 me-4",
           })}
-          <p className="flex-1">{label}</p>
+          <p className="flex-1">{t(labelTransKey)}</p>
           <span>{expandIcon}</span>
         </button>
       </motion.li>
@@ -69,7 +71,7 @@ function SidebarMenuItem({ className, item, depth = 0 }: any) {
                 collapsed: { opacity: 0, height: 0 },
               }}
               transition={{ duration: 0.8, ease: [0.04, 0.62, 0.23, 0.98] }}
-              className="ml-4 text-xs"
+              className="ms-4 text-xs"
             >
               {items?.map((currentItem) => {
                 const childDepth = depth + 1;
@@ -78,7 +80,7 @@ function SidebarMenuItem({ className, item, depth = 0 }: any) {
                     key={`${currentItem.href}${currentItem.label}`}
                     item={currentItem}
                     depth={childDepth}
-                    className={cn("text-sm text-gray-500")}
+                    className={cn("text-sm text-body")}
                   />
                 );
               })}
@@ -94,7 +96,10 @@ function SidebarMenu({ items, className }: any) {
   return (
     <ul className={cn("text-xs", className)}>
       {items?.map((item: any) => (
-        <SidebarMenuItem key={`${item.href}${item.label}`} item={item} />
+        <SidebarMenuItem
+          key={`${item.href}${item.labelTransKey}`}
+          item={item}
+        />
       ))}
     </ul>
   );

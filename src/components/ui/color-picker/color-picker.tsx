@@ -29,7 +29,7 @@ const ColorPicker = React.forwardRef<HTMLInputElement, Props>(
       <div className={className}>
         <label
           htmlFor={name}
-          className="block text-gray-600 font-semibold text-sm leading-none mb-3"
+          className="block text-body-dark font-semibold text-sm leading-none mb-3"
         >
           {label}
         </label>
@@ -49,14 +49,12 @@ const ColorPicker = React.forwardRef<HTMLInputElement, Props>(
             {...rest}
           />
           {color !== null && (
-            <span className="ml-3 px-2 py-1 text-sm text-heading bg-gray-100 border border-gray-200 rounded">
+            <span className="ms-3 px-2 py-1 text-sm text-heading bg-gray-100 border border-border-200 rounded">
               {color}
             </span>
           )}
         </div>
-        {error && (
-          <p className="my-2 text-xs text-right text-red-500">{error}</p>
-        )}
+        {error && <p className="my-2 text-xs text-end text-red-500">{error}</p>}
       </div>
     );
   }

@@ -1,6 +1,7 @@
 import { Control, Controller, FieldErrors } from "react-hook-form";
 import { Switch } from "@headlessui/react";
 import ValidationError from "./form-validation-error";
+import { useTranslation } from "next-i18next";
 
 interface Props {
   control: Control<any>;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 const SwitchInput = ({ control, label, name, errors }: Props) => {
+  const { t } = useTranslation();
   return (
     <div>
       <div>{label}</div>
@@ -28,12 +30,12 @@ const SwitchInput = ({ control, label, name, errors }: Props) => {
             <span
               className={`${
                 value ? "translate-x-6" : "translate-x-1"
-              } inline-block w-4 h-4 transform bg-white rounded-full`}
+              } inline-block w-4 h-4 transform bg-light rounded-full`}
             />
           </Switch>
         )}
       />
-      <ValidationError message={errors?.[name]?.message} />
+      <ValidationError message={t(errors?.[name]?.message)} />
     </div>
   );
 };

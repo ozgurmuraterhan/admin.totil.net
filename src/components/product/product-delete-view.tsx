@@ -1,24 +1,26 @@
 import ConfirmationCard from "@components/common/confirmation-card";
-import { useUI } from "@contexts/ui.context";
+import {
+  useModalAction,
+  useModalState,
+} from "@components/ui/modal/modal.context";
 import { useDeleteProductMutation } from "@data/product/product-delete.mutation";
 
 const ProductDeleteView = () => {
-	const {
-		mutate: deleteProduct,
-		isLoading: loading,
-	} = useDeleteProductMutation();
-	const { closeModal, modalData } = useUI();
-	async function handleDelete() {
-		deleteProduct(modalData);
-		closeModal();
-	}
-	return (
-		<ConfirmationCard
-			onCancel={closeModal}
-			onDelete={handleDelete}
-			deleteBtnLoading={loading}
-		/>
-	);
+  const { mutate: deleteProduct, isLoading: loading } =
+    useDeleteProductMutation();
+  const { data } = useModalState();
+  const { closeModal } = useModalAction();
+  async function handleDelete() {
+    deleteProduct(data);
+    closeModal();
+  }
+  return (
+    <ConfirmationCard
+      onCancel={closeModal}
+      onDelete={handleDelete}
+      deleteBtnLoading={loading}
+    />
+  );
 };
 
 export default ProductDeleteView;

@@ -11,6 +11,7 @@ export const useUnblockUserMutation = () => {
       // Always refetch after error or success:
       onSettled: () => {
         queryClient.invalidateQueries(API_ENDPOINTS.USERS);
+        queryClient.invalidateQueries(API_ENDPOINTS.STAFFS);
       },
     }
   );

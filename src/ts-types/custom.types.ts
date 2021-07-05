@@ -11,8 +11,35 @@ export type CategoriesQueryOptionsType = {
   orderBy?: OrderField;
   sortedBy?: SortOrder;
 };
+export type TagsQueryOptionsType = {
+  type?: string;
+  text?: string;
+  page?: number;
+  parent?: number | null;
+  limit?: number;
+  orderBy?: OrderField;
+  sortedBy?: SortOrder;
+};
+export type ShopsQueryOptionsType = {
+  text?: string;
+  page?: number;
+  parent?: number | null;
+  limit?: number;
+  orderBy?: OrderField;
+  sortedBy?: SortOrder;
+};
+export type WithdrawsQueryOptionsType = {
+  text?: string;
+  shop_id?: number;
+  page?: number;
+  parent?: number | null;
+  limit?: number;
+  orderBy?: OrderField;
+  sortedBy?: SortOrder;
+};
 export type ProductsQueryOptionsType = {
   page?: number;
+  shop_id?: number;
   text?: string;
   type?: string;
   category?: string;
@@ -28,10 +55,18 @@ export type TypesQueryOptionsType = {
   orderBy?: OrderField;
   sortedBy?: SortOrder;
 };
+export type StaffsQueryOptionsType = {
+  page?: number;
+  shop_id?: number;
+  limit?: number;
+  orderBy?: OrderField;
+  sortedBy?: SortOrder;
+};
 
 export type QueryOptionsType = {
   page?: number;
   text?: string;
+  shop_id?: number;
   limit?: number;
   orderBy?: OrderField;
   sortedBy?: SortOrder;

@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { Tax } from "@ts-types/generated";
 import { useCreateTaxClassMutation } from "@data/tax/use-tax-create.mutation";
 import { useUpdateTaxClassMutation } from "@data/tax/use-tax-update.mutation";
+import { useTranslation } from "next-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { taxValidationSchema } from "./tax-validation-schema";
 
@@ -24,6 +25,7 @@ type IProps = {
 };
 export default function CreateOrUpdateTaxForm({ initialValues }: IProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -33,14 +35,10 @@ export default function CreateOrUpdateTaxForm({ initialValues }: IProps) {
     resolver: yupResolver(taxValidationSchema),
     defaultValues: initialValues ?? defaultValues,
   });
-  const {
-    mutate: createTaxClass,
-    isLoading: creating,
-  } = useCreateTaxClassMutation();
-  const {
-    mutate: updateTaxClass,
-    isLoading: updating,
-  } = useUpdateTaxClassMutation();
+  const { mutate: createTaxClass, isLoading: creating } =
+    useCreateTaxClassMutation();
+  const { mutate: updateTaxClass, isLoading: updating } =
+    useUpdateTaxClassMutation();
   const onSubmit = async (values: Tax) => {
     if (initialValues) {
       updateTaxClass({
@@ -65,73 +63,79 @@ export default function CreateOrUpdateTaxForm({ initialValues }: IProps) {
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description
-          title="Information"
-          details={`${initialValues ? "Update" : "Add"} your tax
-          information from here`}
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8 "
+          title={t("form:form-title-information")}
+          details={`${
+            initialValues
+              ? t("form:item-description-update")
+              : t("form:item-description-add")
+          } ${t("form:tax-form-info-help-text")}`}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8 "
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
           <Input
-            label="Name"
+            label={t("form:input-label-name")}
             {...register("name", { required: "Name is required" })}
-            error={errors.name?.message}
+            error={t(errors.name?.message!)}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="Rate"
+            label={t("form:input-label-rate")}
             {...register("rate")}
             type="number"
-            error={errors.rate?.message}
+            error={t(errors.rate?.message!)}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="Country"
+            label={t("form:input-label-country")}
             {...register("country")}
-            error={errors.country?.message}
+            error={t(errors.country?.message!)}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="City"
+            label={t("form:input-label-city")}
             {...register("city")}
-            error={errors.city?.message}
+            error={t(errors.city?.message!)}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="State"
+            label={t("form:input-label-state")}
             {...register("state")}
-            error={errors.state?.message}
+            error={t(errors.state?.message!)}
             variant="outline"
             className="mb-5"
           />
           <Input
-            label="ZIP"
+            label={t("form:input-label-zip")}
             {...register("zip")}
-            error={errors.zip?.message}
+            error={t(errors.zip?.message!)}
             variant="outline"
             className="mb-5"
           />
         </Card>
       </div>
 
-      <div className="mb-4 text-right">
+      <div className="mb-4 text-end">
         {initialValues && (
           <Button
             variant="outline"
             onClick={router.back}
-            className="mr-4"
+            className="me-4"
             type="button"
           >
-            Back
+            {t("form:button-label-back")}
           </Button>
         )}
 
         <Button loading={creating || updating}>
-          {initialValues ? "Update" : "Add"} Tax
+          {initialValues
+            ? t("form:button-label-update")
+            : t("form:button-label-add")}{" "}
+          {t("form:button-label-tax")}
         </Button>
       </div>
     </form>

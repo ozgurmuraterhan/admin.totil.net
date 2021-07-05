@@ -22,6 +22,7 @@ import { useCategoriesQuery } from "@data/category/use-categories.query";
 import { useUpdateCategoryMutation } from "@data/category/use-category-update.mutation";
 import { useCreateCategoryMutation } from "@data/category/use-category-create.mutation";
 import { categoryIcons } from "./category-icons";
+import { useTranslation } from "next-i18next";
 import FileInput from "@components/ui/file-input";
 import SelectInput from "@components/ui/select-input";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -29,7 +30,7 @@ import { categoryValidationSchema } from "./category-validation-schema";
 
 export const updatedIcons = categoryIcons.map((item: any) => {
   item.label = (
-    <div className="flex space-x-5 items-center">
+    <div className="flex space-s-5 items-center">
       <span className="flex w-5 h-5 items-center justify-center">
         {getIcon({
           iconList: categoriesIcon,
@@ -50,10 +51,11 @@ function SelectTypes({
   control: Control<FormValues>;
   errors: FieldErrors;
 }) {
+  const { t } = useTranslation();
   const { data, isLoading } = useTypesQuery();
   return (
     <div className="mb-5">
-      <Label>Types</Label>
+      <Label>{t("form:input-label-types")}</Label>
       <SelectInput
         name="type"
         control={control}
@@ -62,7 +64,7 @@ function SelectTypes({
         options={data?.types!}
         isLoading={isLoading}
       />
-      <ValidationError message={errors.type?.message} />
+      <ValidationError message={t(errors.type?.message)} />
     </div>
   );
 }
@@ -74,6 +76,7 @@ function SelectCategories({
   control: Control<FormValues>;
   setValue: any;
 }) {
+  const { t } = useTranslation();
   const type = useWatch({
     control,
     name: "type",
@@ -92,7 +95,7 @@ function SelectCategories({
   });
   return (
     <div>
-      <Label>Parent Category</Label>
+      <Label>{t("form:input-label-parent-category")}</Label>
       <SelectInput
         name="parent"
         control={control}
@@ -131,6 +134,7 @@ export default function CreateOrUpdateCategoriesForm({
   initialValues,
 }: IProps) {
   const router = useRouter();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
@@ -154,14 +158,10 @@ export default function CreateOrUpdateCategoriesForm({
     resolver: yupResolver(categoryValidationSchema),
   });
 
-  const {
-    mutate: createCategory,
-    isLoading: creating,
-  } = useCreateCategoryMutation();
-  const {
-    mutate: updateCategory,
-    isLoading: updating,
-  } = useUpdateCategoryMutation();
+  const { mutate: createCategory, isLoading: creating } =
+    useCreateCategoryMutation();
+  const { mutate: updateCategory, isLoading: updating } =
+    useUpdateCategoryMutation();
 
   const onSubmit = async (values: FormValues) => {
     const input = {
@@ -196,11 +196,11 @@ export default function CreateOrUpdateCategoriesForm({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-wrap pb-8 border-b border-dashed border-gray-300 my-5 sm:my-8">
+      <div className="flex flex-wrap pb-8 border-b border-dashed border-border-base my-5 sm:my-8">
         <Description
-          title="Image"
-          details="Upload your category image here"
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
+          title={t("form:input-label-image")}
+          details={t("form:category-image-helper-text")}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8"
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
@@ -210,32 +210,33 @@ export default function CreateOrUpdateCategoriesForm({
 
       <div className="flex flex-wrap my-5 sm:my-8">
         <Description
-          title="Description"
+          title={t("form:input-label-description")}
           details={`${
-            initialValues ? "Edit" : "Add"
-          } your category details and necessary information from here`}
-          className="w-full px-0 sm:pr-4 md:pr-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8 "
+            initialValues
+              ? t("form:item-description-edit")
+              : t("form:item-description-add")
+          } ${t("form:category-description-helper-text")}`}
+          className="w-full px-0 sm:pe-4 md:pe-5 pb-5 sm:w-4/12 md:w-1/3 sm:py-8 "
         />
 
         <Card className="w-full sm:w-8/12 md:w-2/3">
           <Input
-            label="Name"
+            label={t("form:input-label-name")}
             {...register("name")}
-            error={errors.name?.message}
+            error={t(errors.name?.message!)}
             variant="outline"
             className="mb-5"
           />
 
           <TextArea
-            label="Details"
+            label={t("form:input-label-details")}
             {...register("details")}
-            error={errors.details?.message}
             variant="outline"
             className="mb-5"
           />
 
           <div className="mb-5">
-            <Label>Select Icon</Label>
+            <Label>{t("form:input-label-select-icon")}</Label>
             <SelectInput
               name="icon"
               control={control}
@@ -247,20 +248,22 @@ export default function CreateOrUpdateCategoriesForm({
           <SelectCategories control={control} setValue={setValue} />
         </Card>
       </div>
-      <div className="mb-4 text-right">
+      <div className="mb-4 text-end">
         {initialValues && (
           <Button
             variant="outline"
             onClick={router.back}
-            className="mr-4"
+            className="me-4"
             type="button"
           >
-            Back
+            {t("form:button-label-back")}
           </Button>
         )}
 
         <Button loading={creating || updating}>
-          {initialValues ? "Update Category" : "Add Category"}
+          {initialValues
+            ? t("form:button-label-update-category")
+            : t("form:button-label-add-category")}
         </Button>
       </div>
     </form>

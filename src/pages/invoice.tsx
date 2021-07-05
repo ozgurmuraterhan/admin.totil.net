@@ -4,9 +4,9 @@ import Loader from "@components/ui/loader/loader";
 import { useOrderQuery } from "@data/order/use-order.query";
 import { PDFViewer } from "@react-pdf/renderer";
 
-const MyDocument = () => {
+const InvoicePage = () => {
   const { data, isLoading: loading, error } = useOrderQuery("1");
-  if (loading) return <Loader />;
+  if (loading) return <Loader showText={false} />;
   if (error) return <ErrorMessage message={error.message} />;
   return (
     <PDFViewer style={{ width: "100vw", height: "100vh" }}>
@@ -15,4 +15,4 @@ const MyDocument = () => {
   );
 };
 
-export default MyDocument;
+export default InvoicePage;

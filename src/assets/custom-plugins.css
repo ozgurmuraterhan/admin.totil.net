@@ -21,7 +21,7 @@
 .react-datepicker-wrapper .react-datepicker__input-container input:focus {
   outline: none;
   box-shadow: none;
-  border-color: var(--primary);
+  border-color: rgb(var(--color-accent));
 }
 .react-datepicker-popper[data-placement^="bottom"] {
   margin-top: 5px !important;
@@ -36,6 +36,7 @@
   color: #6b7280 !important;
   border: 1px solid #d1d5db !important;
   border-radius: 5px !important;
+  direction: ltr;
 }
 .react-datepicker .react-datepicker__triangle {
   display: none;
@@ -127,7 +128,7 @@
   .react-datepicker__quarter-text--today,
 .react-datepicker .react-datepicker__month .react-datepicker__year-text--today {
   font-weight: 700;
-  color: var(--primary);
+  color: rgb(var(--color-accent));
   background-color: #fff;
 }
 .react-datepicker .react-datepicker__month .react-datepicker__day:hover,
@@ -223,7 +224,7 @@
   .react-datepicker__month
   .react-datepicker__year-text--in-range {
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
   opacity: 1;
 }
 .react-datepicker
@@ -251,12 +252,12 @@
   .react-datepicker__month
   .react-datepicker__year-text--in-range:hover {
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
 }
 .react-datepicker .react-datepicker__month .react-datepicker__day--selected,
 .react-datepicker .react-datepicker__month .react-datepicker__day--in-range {
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
 }
 .react-datepicker
   .react-datepicker__month
@@ -265,17 +266,17 @@
   .react-datepicker__month
   .react-datepicker__day--in-range:hover {
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
 }
 .react-datepicker .react-datepicker__month .react-datepicker__day--highlighted {
   color: #fff;
-  background-color: var(--secondary);
+  background-color: rgb(var(--secondary));
 }
 .react-datepicker
   .react-datepicker__month
   .react-datepicker__day--highlighted:hover {
   color: #fff;
-  background-color: var(--secondary);
+  background-color: rgb(var(--secondary));
 }
 .react-datepicker
   .react-datepicker__month
@@ -290,7 +291,7 @@
   .react-datepicker__month
   .react-datepicker__year-text--in-selecting-range {
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
   opacity: 0.75;
 }
 .react-datepicker
@@ -306,7 +307,7 @@
   .react-datepicker__month
   .react-datepicker__year-text--in-selecting-range:hover {
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
   opacity: 0.75;
 }
 .react-datepicker
@@ -323,7 +324,7 @@
   .react-datepicker__year-text--selecting-range-start {
   opacity: 1;
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
 }
 .react-datepicker .react-datepicker__month .react-datepicker__day--disabled,
 .react-datepicker
@@ -392,7 +393,7 @@
   .react-datepicker__month
   .react-datepicker__day--keyboard-selected.react-datepicker__day--today {
   color: #fff;
-  background-color: var(--primary);
+  background-color: rgb(var(--color-accent));
 }
 
 /*
@@ -407,17 +408,17 @@
 .rc-pagination .rc-pagination-next,
 .rc-pagination.rc-pagination-simple .rc-pagination-prev,
 .rc-pagination.rc-pagination-simple .rc-pagination-next {
-  @apply w-8 h-8 mr-2 mt-2 flex items-center justify-center rounded border border-gray-300 bg-gray-50 hover:border-primary  hover:text-primary focus:border-primary focus:text-primary;
+  @apply w-8 h-8 me-2 mt-2 flex items-center justify-center rounded border border-border-base bg-gray-50 hover:border-accent  hover:text-accent focus:border-accent focus:text-accent;
 }
 
 .rc-pagination .rc-pagination-prev.rc-pagination-disabled,
 .rc-pagination .rc-pagination-next.rc-pagination-disabled {
-  @apply text-gray-400 hover:text-gray-400 hover:border-gray-300 focus:border-gray-300;
+  @apply text-muted hover:text-muted hover:border-border-base focus:border-border-base;
 }
 
 .rc-pagination .rc-pagination-prev svg,
 .rc-pagination .rc-pagination-next svg {
-  @apply w-4 h-4;
+  @apply w-4 h-4 rtl:transform rtl:rotate-180;
 }
 
 .rc-pagination .rc-pagination-item a {
@@ -426,20 +427,20 @@
 
 .rc-pagination .rc-pagination-item:focus a,
 .rc-pagination .rc-pagination-item:hover a {
-  @apply text-primary;
+  @apply text-accent;
 }
 
 .rc-pagination .rc-pagination-jump-prev button,
 .rc-pagination .rc-pagination-jump-next button {
-  @apply h-8 text-gray-600 focus:outline-none focus:ring-1 focus:ring-gossamer-300;
+  @apply h-8 text-body-dark focus:outline-none focus:ring-1 focus:ring-accent-300;
 }
 
 .rc-pagination .rc-pagination-item.rc-pagination-item-active {
-  @apply border-primary bg-primary text-white;
+  @apply border-accent bg-accent text-light;
 }
 
 .rc-pagination .rc-pagination-item.rc-pagination-item-active a {
-  @apply text-white hover:text-white focus:text-white;
+  @apply text-light hover:text-light focus:text-light;
 }
 
 .rc-pagination .rc-pagination-options .rc-pagination-options-quick-jumper,
@@ -449,7 +450,7 @@
 
 .rc-pagination .rc-pagination-options .rc-pagination-options-quick-jumper input,
 .rc-pagination.rc-pagination-simple .rc-pagination-simple-pager input {
-  @apply h-8 border border-gray-300 bg-gray-50 rounded px-2 font-body text-sm text-heading hover:border-primary focus:border-primary focus:outline-none;
+  @apply h-8 border border-border-base bg-gray-50 rounded px-2 font-body text-sm text-heading hover:border-accent focus:border-accent focus:outline-none;
 }
 
 /* RC Table */
@@ -464,11 +465,11 @@
 
 .rc-table tr th,
 .rc-table tr td {
-  @apply font-body border-0 border-b border-gray-200;
+  @apply font-body border-0 border-b border-border-200;
 }
 
 .rc-table thead.rc-table-thead th {
-  @apply py-3 px-3 font-body text-sm font-semibold text-heading border-gray-200 whitespace-nowrap first:pl-4 last:pr-4;
+  @apply py-3 px-3 font-body text-sm font-semibold text-heading border-border-200 whitespace-nowrap first:ps-4 last:pe-4;
   background-color: #f7f8f9;
 }
 
@@ -477,7 +478,7 @@
 }
 
 .rc-table tr.rc-table-row td {
-  @apply py-3 px-3 font-body text-sm font-normal text-body first:pl-4 last:pr-4;
+  @apply py-3 px-3 font-body text-sm font-normal text-body first:ps-4 last:pe-4;
 }
 
 .rc-table tr.rc-table-row-level-1 td,
@@ -507,7 +508,7 @@
 
 /* React toastify */
 .Toastify__toast--success {
-  @apply bg-primary;
+  @apply bg-accent;
 }
 
 .Toastify__toast--error {

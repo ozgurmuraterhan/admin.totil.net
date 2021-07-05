@@ -1,16 +1,18 @@
 import ConfirmationCard from "@components/common/confirmation-card";
-import { useUI } from "@contexts/ui.context";
+import {
+  useModalAction,
+  useModalState,
+} from "@components/ui/modal/modal.context";
 import { useDeleteCouponMutation } from "@data/coupon/use-coupon-delete.mutation";
 
 const CouponDeleteView = () => {
-  const {
-    mutate: deleteCoupon,
-    isLoading: loading,
-  } = useDeleteCouponMutation();
+  const { mutate: deleteCoupon, isLoading: loading } =
+    useDeleteCouponMutation();
 
-  const { closeModal, modalData } = useUI();
+  const { data } = useModalState();
+  const { closeModal } = useModalAction();
   function handleDelete() {
-    deleteCoupon(modalData);
+    deleteCoupon(data);
     closeModal();
   }
   return (
